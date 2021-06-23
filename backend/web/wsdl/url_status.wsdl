@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+             xmlns:tns="http://localhost:8080/"
+             xmlns:xs="http://www.w3.org/2001/XMLSchema"
+             xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+             xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+             name="UrlStatusWdl"
+             xmlns="http://schemas.xmlsoap.org/wsdl/">
+    <types>
+        <xs:schema xmlns:tns="http://schemas.xmlsoap.org/wsdl/"
+                   xmlns="http://www.w3.org/2001/XMLSchema"
+                   xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                   elementFormDefault="qualified"
+                   targetNamespace="http://localhost:8080/">
+
+            <complexType name="UrlStatusCode">
+                <sequence>
+                    <element type="string" name="url" minOccurs="1" maxOccurs="1"/>
+                </sequence>
+            </complexType>
+
+            <complexType name="UrlStatusResponse">
+                <sequence>
+                    <element name="url" type="string" minOccurs="1" maxOccurs="1" />
+                    <element name="code" type="int" minOccurs="1" maxOccurs="1" />
+                </sequence>
+            </complexType>
+
+            <complexType name="ListUrlStatusResponse">
+                <sequence>
+                    <element name="urlStatusResponse" type="UrlStatusResponse" maxOccurs="unbounded" minOccurs="1"/>
+                </sequence>
+            </complexType>
+
+            <complexType name="ListUrlStatus">
+                <sequence>
+                    <element name="urlStatusCode" type="UrlStatusCode" maxOccurs="unbounded" minOccurs="1"/>
+                </sequence>
+            </complexType>
+
+            <element name="Request">
+                <complexType>
+                    <sequence>
+                        <element name="listUrlStatus" type="ListUrlStatus"/>
+                    </sequence>
+                </complexType>
+            </element>
+            <element name="Response">
+                <complexType>
+                    <sequence>
+                        <element name="listUrlStatusResponse" type="ListUrlStatusResponse"/>
+                    </sequence>
+                </complexType>
+            </element>
+
+        </xs:schema>
+    </types>
+    <message name="sendUrlStatusRequest">
+        <part name="Request" element="tns:Request"/>
+    </message>
+    <message name="sendUrlStatusResponse">
+        <part name="Response" element="tns:Response"/>
+    </message>
+    <portType name="UrlStatusServicePortType">
+        <operation name="getStatus">
+            <input message="tns:sendUrlStatusRequest"/>
+            <output message="tns:sendUrlStatusResponse"/>
+        </operation>
+    </portType>
+    <binding name="UrlStatusServiceBinding" type="tns:UrlStatusServicePortType">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="rpc"/>
+        <operation name="getStatus">
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+    </binding>
+    <service name="UrlStatusService">
+        <port name="UrlStatusServicePort" binding="tns:UrlStatusServiceBinding">
+            <soap:address location="http://localhost:8080/"/>
+        </port>
+    </service>
+</definitions>

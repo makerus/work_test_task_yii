@@ -1,0 +1,22 @@
+{
+    "name": "makerus/url-status",
+    "description": "Пакет для YII (часть тестового задания)",
+    "type": "library",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "makerus",
+            "email": "github@katagarov.ru"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": false,
+    "require": {
+        "php": ">=7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "makerus\\urlstatus\\" : ""
+        }
+    }
+}
